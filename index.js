@@ -5,9 +5,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const User = require('./schema/User')
+const registerRoutes = require('./routes/auth')
+const quizRoutes = require('./routes/quiz')
 
 
 const app = express();  
+
 // app.use(express.json())
 app.use(express.urlencoded())
 
@@ -21,8 +24,10 @@ app.get('/',(req,res)=>{
 
 })
 
-// to create user
+app.use('/auth',registerRoutes)
+app.use('/quiz', quizRoutes)
 
+// to create user
 app.post('/user', async(req,res)=>{
     try {
         const newUser = new User(req.body);
@@ -36,6 +41,11 @@ app.post('/user', async(req,res)=>{
         
     }
 })
+
+
+
+
+
 
 
 app.listen(port,(error)=>{
